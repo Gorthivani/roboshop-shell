@@ -11,6 +11,9 @@ yum install nodejs -y
 echo -e "\e[36m>>>>>>>>>>>> create application user <<<<<<<<<<<<\e[0m"
 useradd roboshop
 
+ echo -e "\e[36m>>>>>>>>>>>> remove directory of application  <<<<<<<<<<<<\e[0m"
+rm -rf /app
+
 echo -e "\e[36m>>>>>>>>>>>> create directory of application  <<<<<<<<<<<<\e[0m"
 mkdir /app
 
