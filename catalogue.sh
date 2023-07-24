@@ -34,7 +34,7 @@ yum install mongodb-org-shell -y &>>/tmp/robodhop.log
 echo -e "\e[36m>>>>>>>>>>>> load catalogue schema <<<<<<<<<<<<\e[0m" | tee -a /tmp/roboshop.log
 mongo --host mongodb.gorthivani.online</app/schema/catalogue.js &>>/tmp/robodhop.log
 
-echo -e "\e[36m>>>>>>>>>>>> start catalogue service<<<<<<<<<<<\e[0m\e[0m" | tee -a /tmp/roboshop.log
+echo -e "\e[36m>>>>>>>>>>>> start catalogue service<<<<<<<<<<<\e[0m\e" | tee -a /tmp/roboshop.log
 
 systemctl daemon-reload &>>/tmp/robodhop.log
 systemctl enable catalogue &>>/tmp/robodhop.log
