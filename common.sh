@@ -10,13 +10,13 @@ func_exit_status(){
 func_apppreq(){
 
   echo -e "\e[36m>>>>>>>>>>>> create ${component} service<<<<<<<<<<<<\e[0m"
-    cp component.service /etc/systemd/system/component.service &>>${log}
+    cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
     func_exit_status
 
   echo -e "\e[36m>>>>>>>>>>>> create application user <<<<<<<<<<<<\e[0m"
- id roboshop &>>${log}
-  if [ $? -e -0 ];then
-    useradd roboshop &>>${log}
+      id roboshop &>>${log}
+      if [ $? -ne -0 ];then
+      useradd roboshop &>>${log}
     fi
     func_exit_status
 
@@ -28,12 +28,12 @@ func_apppreq(){
     func_exit_status
 
     echo -e "\e[36m>>>>>>>>>>>> download application content <<<<<<<<<<<<\e[0m"
-    curl -o /tmp/component.zip https://roboshop-artifacts.s3.amazonaws.com/component.zip &>>${log}
+    curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log}
     func_exit_status
 
     echo -e "\e[36m>>>>>>>>>>>> extract  application content <<<<<<<<<<<<\e[0m"
     cd /app
-    unzip /tmp/component.zip &>>${log}
+    unzip /tmp/${component}.zip &>>${log}
 
     func_exit_status
 
@@ -41,7 +41,7 @@ func_apppreq(){
 
 }
 func_systemd(){
-  echo -e "\e[36m>>>>>>>>>>>> start shipping service service<<<<<<<<<<<\e[0m"
+  echo -e "\e[36m>>>>>>>>>>>> start ${component} service<<<<<<<<<<<\e[0m"
 
 
     systemctl daemon-reload &>>${log}
@@ -60,7 +60,7 @@ func_schema_setup(){
     func_exit_status
     fi
 
-  if [ "${schema_type}" == "mongodb" ]; then
+  if [ "${schema_type}" == "mysql" ]; then
       echo -e "\e[36m>>>>>>>>>>>> install mysql client <<<<<<<<<<<\e[0m"
       yum install mysql -y &>>${log}
       func_exit_status
@@ -91,6 +91,7 @@ func_nodejs(){
 
 
      func_exit_status
+      func_apppreq
 
   echo -e "\e[36m>>>>>>>>>>>> install nodejs dependencies <<<<<<<<<<<<\e[0m"
   npm install &>>${log}
