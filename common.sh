@@ -56,7 +56,7 @@ func_schema_setup(){
     yum install mongodb-org-shell -y &>>${log}
     func_exit_status
     echo -e "\e[36m>>>>>>>>>>>> load user schema <<<<<<<<<<<<\e[0m" |tee -a /tmp/roboshop.log
-    mongo --host mongodb.gorthivani.online </app/schema/component.js &>>${log}
+    mongo --host mongodb.gorthivani.online </app/schema/${component}.js &>>${log}
     func_exit_status
     fi
 
@@ -65,7 +65,7 @@ func_schema_setup(){
       yum install mysql -y &>>${log}
       func_exit_status
       echo -e "\e[36m>>>>>>>>>>>> load shipping schema <<<<<<<<<<<\e[0m"
-      mysql -h <mysql.gorthivani.online> -uroot -pRoboShop@1 < /app/schema/shipping.sql &>>${log}
+      mysql -h mysql.gorthivani.online -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
      func_exit_status
       fi
 
