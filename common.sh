@@ -43,9 +43,10 @@ func_apppreq(){
 func_systemd(){
   echo -e "\e[36m>>>>>>>>>>>> start shipping service service<<<<<<<<<<<\e[0m"
 
-    systemctl daemon-reload
+
+    systemctl daemon-reload &>>${log}
     systemctl enable component &>>${log}
-    systemctl start component &>>${log}
+
     systemctl restart shipping &>>${log}
     func_exit_status
 }
@@ -75,6 +76,7 @@ func_schema_setup(){
 func_nodejs(){
   log=/tmp/roboshop.log
 
+  func_apppreq
 
   echo -e "\e[36m>>>>>>>>>>>> create mongodb repo <<<<<<<<<<<<\e[0m"
   cp mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
@@ -87,15 +89,16 @@ func_nodejs(){
   yum install nodejs -y &>>${log}
 
 
-   func_apppreq
+
      func_exit_status
 
   echo -e "\e[36m>>>>>>>>>>>> install nodejs dependencies <<<<<<<<<<<<\e[0m"
   npm install &>>${log}
 
   func_schema_setup
-  func_exit_status
+
   func_systemd
+  func_exit_status
 }
 func_java(){
 
