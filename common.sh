@@ -12,6 +12,7 @@ func_apppreq(){
   echo -e "\e[36m>>>>>>>>>>>> create user service<<<<<<<<<<<<\e[0m"
     cp component.service /etc/systemd/system/component.service &>>${log}
     func_exit_status
+
   echo -e "\e[36m>>>>>>>>>>>> create application user <<<<<<<<<<<<\e[0m"
  id roboshop &>>${log}
   if [ $? -e -0 ];then
@@ -84,14 +85,16 @@ func_nodejs(){
 
   echo -e "\e[36m>>>>>>>>>>>> install node js  <<<<<<<<<<<<\e[0m"
   yum install nodejs -y &>>${log}
-  func_exit_status
+
+
    func_apppreq
+     func_exit_status
 
   echo -e "\e[36m>>>>>>>>>>>> install nodejs dependencies <<<<<<<<<<<<\e[0m"
   npm install &>>${log}
-  func_exit_status
-  func_schema_setup
 
+  func_schema_setup
+  func_exit_status
   func_systemd
 }
 func_java(){
