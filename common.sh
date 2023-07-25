@@ -52,7 +52,7 @@ func_systemd(){
 }
 func_schema_setup(){
   if [ "${schema_type}" == "mongodb" ]; then
-    echo -e "\e[36m>>>>>>>>>>>> install mongo client <<<<<<<<<<<<\e[0m" |tee -a /tmp/roboshop.log
+    echo -e "\e[36m>>>>>>>>>>>> install mongodb client <<<<<<<<<<<<\e[0m" |tee -a /tmp/roboshop.log
     yum install mongodb-org-shell -y &>>${log}
     func_exit_status
     echo -e "\e[36m>>>>>>>>>>>> load user schema <<<<<<<<<<<<\e[0m" |tee -a /tmp/roboshop.log
