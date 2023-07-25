@@ -43,9 +43,9 @@ func_systemd(){
   echo -e "\e[36m>>>>>>>>>>>> start shipping service service<<<<<<<<<<<\e[0m"
 
     systemctl daemon-reload
-    systemctl enable component &>>%{log}
-    systemctl start component &>>%{log}
-    systemctl restart shipping &>>%{log}
+    systemctl enable component &>>${log}
+    systemctl start component &>>${log}
+    systemctl restart shipping &>>${log}
     func_exit_status
 }
 func_schema_setup(){
@@ -60,10 +60,10 @@ func_schema_setup(){
 
   if [ "${schema_type}" == "mongodb" ]; then
       echo -e "\e[36m>>>>>>>>>>>> install mysql client <<<<<<<<<<<\e[0m"
-      yum install mysql -y &>>%{log}
+      yum install mysql -y &>>${log}
       func_exit_status
       echo -e "\e[36m>>>>>>>>>>>> load shipping schema <<<<<<<<<<<\e[0m"
-      mysql -h <mysql.gorthivani.online> -uroot -pRoboShop@1 < /app/schema/shipping.sql &>>%{log}
+      mysql -h <mysql.gorthivani.online> -uroot -pRoboShop@1 < /app/schema/shipping.sql &>>${log}
      func_exit_status
       fi
 
@@ -99,14 +99,14 @@ func_java(){
 
 
   echo -e "\e[36m>>>>>>>>>>>> install maven <<<<<<<<<<<\e[0m"
-   yum install maven -y &>>%{log}
+   yum install maven -y &>>${log}
    func_exit_status
 
   func_apppreq
   echo -e "\e[36m>>>>>>>>>>>> build shipping service<<<<<<<<<<<\e[0m"
-  mvn clean package &>>%{log}
+  mvn clean package &>>${log}
 
-   mv target/shipping-1.0.jar shipping.jar &>>%{log}
+   mv target/shipping-1.0.jar shipping.jar &>>${log}
    func_exit_status
    func_schema_setup
 
@@ -118,10 +118,10 @@ func_python(){
 
     echo -e "\e[36m>>>>>>>>>>>> build payment  <<<<<<<<<<<\e[0m"
 
-  yum install python36 gcc python3-devel -y &>>%{log}
+  yum install python36 gcc python3-devel -y &>>${log}
   func_apppreq
    echo -e "\e[36m>>>>>>>>>>>> build application service <<<<<<<<<<<\e[0m"
-  pip3.6 install -r requirements.txt &>>%{log}
+  pip3.6 install -r requirements.txt &>>${log}
   func_exit_status
   func_systemd
 }
