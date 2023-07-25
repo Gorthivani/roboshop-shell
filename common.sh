@@ -117,6 +117,7 @@ func_java(){
    func_schema_setup
 
   func_systemd
+  func_exit_status
 
 
 }
