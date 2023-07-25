@@ -9,7 +9,7 @@ func_exit_status(){
 }
 func_apppreq(){
 
-  echo -e "\e[36m>>>>>>>>>>>> create user service<<<<<<<<<<<<\e[0m"
+  echo -e "\e[36m>>>>>>>>>>>> create ${component} service<<<<<<<<<<<<\e[0m"
     cp component.service /etc/systemd/system/component.service &>>${log}
     func_exit_status
 
@@ -34,7 +34,7 @@ func_apppreq(){
     echo -e "\e[36m>>>>>>>>>>>> extract  application content <<<<<<<<<<<<\e[0m"
     cd /app
     unzip /tmp/component.zip &>>${log}
-    cd /app
+
     func_exit_status
 
 
@@ -45,9 +45,9 @@ func_systemd(){
 
 
     systemctl daemon-reload &>>${log}
-    systemctl enable component &>>${log}
+    systemctl enable ${component} &>>${log}
 
-    systemctl restart shipping &>>${log}
+    systemctl restart ${component} &>>${log}
     func_exit_status
 }
 func_schema_setup(){
@@ -76,7 +76,7 @@ func_schema_setup(){
 func_nodejs(){
   log=/tmp/roboshop.log
 
-  func_apppreq
+
 
   echo -e "\e[36m>>>>>>>>>>>> create mongodb repo <<<<<<<<<<<<\e[0m"
   cp mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
@@ -94,11 +94,13 @@ func_nodejs(){
 
   echo -e "\e[36m>>>>>>>>>>>> install nodejs dependencies <<<<<<<<<<<<\e[0m"
   npm install &>>${log}
+  func_exit_status
+
 
   func_schema_setup
 
   func_systemd
-  func_exit_status
+
 }
 func_java(){
 
@@ -117,7 +119,7 @@ func_java(){
    func_schema_setup
 
   func_systemd
-  func_exit_status
+
 
 
 }
@@ -126,6 +128,7 @@ func_python(){
     echo -e "\e[36m>>>>>>>>>>>> build payment  <<<<<<<<<<<\e[0m"
 
   yum install python36 gcc python3-devel -y &>>${log}
+  func_exit_status
   func_apppreq
    echo -e "\e[36m>>>>>>>>>>>> build application service <<<<<<<<<<<\e[0m"
   pip3.6 install -r requirements.txt &>>${log}
